@@ -2,7 +2,7 @@ import pycolors
 
 c = pycolors.Colors()
 redRGB = c.RGB(255, 0, 0)
-redHex = c.Hexadecimal("ff0000")
+redHex = c.Hexadecimal("#ff0000")
 redCMYK = c.CMYK(0, 100, 100, 0)
 print(f"Red RGB tuple: {redRGB.to_tuple()}")
 print(f"Red Hex code: {redHex.to_string()}")
