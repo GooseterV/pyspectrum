@@ -1,6 +1,6 @@
 __author__ = 'Goose V'
 __email__ = '82774618+GooseterV@users.noreply.github.com'
-__version__ = '0.0.3'
+__version__ = '0.0.4'
 
 class Colors:
 	class Errors:
