@@ -1,6 +1,6 @@
-import pycolors
+import pyspectrum
 
-c = pycolors.Colors()
+c = pyspectrum.Colors()
 redRGB = c.RGB(255, 0, 0)
 redHex = c.Hexadecimal("#ff0000")
 redCMYK = c.CMYK(0, 100, 100, 0)

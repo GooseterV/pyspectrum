@@ -1,1 +1,1 @@
-## pycolors
+## pyspectrum
