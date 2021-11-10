@@ -15,7 +15,26 @@ class Colors:
 				self.message = f"Invalid color number(s). Make sure the number is in the correct range! (CMYK; 0-100 RGB; 0-255)"
 				super().__init__(self.message)
 			pass
+		class InvalidColorName(Exception):
+			def __init__(self):
+				self.message = f"Invalid color name. Make sure the name is a TRUE html/css color."
+				super().__init__(self.message)
+			pass
 	class RGB:
+		"""
+		Create an `RGB` color object out of r, g, and b.
+
+		r, g, b must be in `range(0, 255)`
+
+		Parameters:
+			r:int - the red value for the color
+			g:int - the green value for the color
+			b:int - the blue value for the color
+		Returns:
+			an RGB color object
+		Raises:
+			`InvalidNumberRange`; if any of the color values is less than 0 or greater than 255
+		"""
 		def __init__(self, r, g, b):
 			if any(n for n in (r, g, b) if n > 255 or n < 0):
 				raise Colors.Errors.InvalidNumberRange()
@@ -23,36 +42,127 @@ class Colors:
 			self._green = g
 			self._blue = b
 		def to_tuple(self):
+			"""
+			Converts the RGB color into a tuple containing the three values; red, green, and blue.
+			
+			Parameters:
+				`none`
+			Returns:
+				a tuple of the values; (r, g, b)
+			"""
 			return (self._red, self._green, self._blue)
 		def print_color(self):
+			"""
+			Prints the color in rgb form, colored that same color.
+			
+			Parameters:
+				`none`
+			Returns:
+				`none`
+			"""
 			print(f"\033[38;2;{self._red};{self._green};{self._blue}mrgb{self.to_tuple()}\033[0m")
 		def to_hex(self):
+			"""
+			Converts the RGB color into a hexadecimal color 
+			
+			Parameters:
+				`none`
+			Returns:
+				an `Hexadecimal` color object		
+			"""
 			return Colors.Hexadecimal(f"#{self._red:02x}{self._green:02x}{self._blue:02x}")
 		def to_cmyk(self):
+			"""
+			Converts the RGB color into a CMYK color 
+			
+			Parameters:
+				`none`
+			Returns:
+				an `CMYK` color object		
+			"""
 			c, m, y = 1 - self._red / 255, 1 - self._green / 255, 1 - self._blue / 255
 			c, m, y = (c - min(c, m, y)) / (1 - min(c, m, y)), (m - min(c, m, y)) / (1 - min(c, m, y)), (y - min(c, m, y)) / (1 - min(c, m, y))
 			k = min(c, m, y)
 			return Colors.CMYK(int(c * 100), int(m * 100), int(y * 100), int(k * 100))
 
 	class Hexadecimal:
+		"""
+		Create a Hexadecimal color object from a string
+
+		`hex_string` must be formatted `#xxxxxx`, where x is a hexadecimal character from 0-F
+
+		Parameters:
+			hex_string:str - a hexadecimal string
+		Returns:
+			a `Hexadecimal` color obkect
+		Raises:
+			`InvalidHex`; if the string is not formatted properly or has non-hexadecimal characters
+		"""
 		def __init__(self, hex_string:str):
 			if "#" not in hex_string or len(hex_string) < 7 or any(c not in "0123456789abcdefABCDEF#" for c in set(hex_string)):
 				raise Colors.Errors.InvalidHex(hex_string)
 			self._hex_string = hex_string.replace("#", "").lower()
 		def to_rgb(self):
+			"""
+			Converts the hex color into an RGB color 
+			
+			Parameters:
+				`none`
+			Returns:
+				an `RGB` color object		
+			"""
 			return Colors.RGB(int(self._hex_string[0:2], 16), int(self._hex_string[2:4], 16), int(self._hex_string[4:6], 16))
 		def to_string(self):
+			"""
+			Converts the Hexadecimal color into a string formatted `#xxxxxx`
+			
+			Parameters:
+				`none`
+			Returns:
+				a hexadecimal string
+			"""
 			return f"#{self._hex_string}"
 		
 	class CMYK:
+		"""
+		Create a CMYK color object out of c, m, y, and k
+
+		c, m, y, k must be in `range(0, 100)`
+
+		Parameters:
+			c:int - the cyan value for the color
+			m:int - the magenta value for the color
+			y:int - the yellow value for the color
+			k:int - the black value for the color
+		Returns:
+			a CMYK color object
+		Raises:
+			`InvalidNumberRange`; if any of the color values is less than 0 or greater than 100
+		"""
 		def __init__(self, c, m, y, k):
 			self._cyan = c
 			self._magenta = m
 			self._yellow = y
 			self._black = k
 		def to_tuple(self):
+			"""
+			Converts the CMYK color into a tuple containing the four values; cyan, magenta, yellow, black.
+			
+			Parameters:
+				`none`
+			Returns:
+				a tuple of the values; (c, m, y, k)
+			"""
 			return (self._cyan, self._magenta, self._yellow, self._black)
 		def to_rgb(self):
+			"""
+			Converts the CMYK color into an RGB color 
+			
+			Parameters:
+				`none`
+			Returns:
+				an `RGB` color object		
+			"""
 			return Colors.RGB(int(255*(1.0-(self._cyan+self._black)/100)), int(255*(1.0-(self._magenta+self._black)/100)), int(255*(1.0-(self._yellow+self._black)/100)))
 	def __init__(self):
 		self._color_names = {
@@ -207,14 +317,26 @@ class Colors:
 	}
 	def from_name(self, colorName:str):
 		"""
-		Checks the distance between two points on a graph
+		Get an RGB color from a web color name; `red`, `seagreen`, `chartreuse`
+
 		Parameters:
-			colorName:str - html/css color name; `red`, `seagreen`, `chartreuse`
+			colorName:str - html/css color name
 		Returns:
 			rgbColor - an `RGB` object from the color
+		Raises:
+			`InvalidColorName`; if the designated color literal is not an HTML/CSS color.
 		"""
 		if colorName not in self._color_names.keys():
 			raise Colors.Errors.InvalidColorName()
 		return Colors.Hexadecimal(f"#{self._color_names[colorName]}").to_rgb()
 	def color_text(self, text:str, color:RGB):
+		"""
+		Colors a string with the color of `color` 
+
+		Parameters:
+			text:str - the string you want to color
+			color:RGB - the color you want the text to be
+		Returns:
+			coloredText - the colored string, when printing will show up colored
+		"""
 		return f"\033[38;2;{color._red};{color._green};{color._blue}m{text}\033[0m"
