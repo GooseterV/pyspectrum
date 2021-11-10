@@ -7,7 +7,7 @@ Using `pip` to install is highly reccomended</br>
 
 `pip install -U pyspectrum`</br>
 
-### Examples
+### Example
 ```py
 import pyspectrum
 # init colors
