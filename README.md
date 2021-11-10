@@ -6,6 +6,7 @@
 Using `pip` to install is highly reccomended</br>
 
 `pip install -U pyspectrum`</br>
+
 ### Examples
 ```py
 import pyspectrum
@@ -15,11 +16,19 @@ c = pyspectrum.Colors()
 redRGB = c.RGB(255, 0, 0)
 redHex = c.Hexadecimal("#ff0000")
 redCMYK = c.CMYK(0, 100, 100, 0)
+# html/css color name
+convertedRGB = c.from_name("red")
 # converting values
 convertedCMYK = redRGB.to_cmyk()
 convertedHex = redRGB.to_hex()
-
-
+# accessing tuples and printing
+print(f"Red RGB tuple: {redRGB.to_tuple()}")
+print(f"Red Hex code: {redHex.to_string()}")
+print(f"Red CMYK tuple: {redCMYK.to_tuple()}")
+## printing colored text from RGB 
+# prints'This is red text' in a red color
+print(c.color_text("This is red text", redRGB))
+```
 
 
 
