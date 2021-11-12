@@ -215,15 +215,17 @@ class Colors:
             h = self._hue/360
             s = self._saturation/100
             v = self._value/100
-            if s == 0.0: return (v*360, v*100, v*100)
-            i = int(h*6.) # XXX assume int() truncates!
-            f = (h*6.)-i; p,q,t = v*(1.-s), v*(1.-s*f), v*(1.-s*(1.-f)); i%=6
-            if i == 0: return (v*360, t*100, p*100)
-            if i == 1: return (q*360, v*100, p*100)
-            if i == 2: return (p*360, v*100, t*100)
-            if i == 3: return (p*360, q*100, v*100)
-            if i == 4: return (t*360, p*100, v*100)
-            if i == 5: return (v*360, p*100, q*100)
+            if s == 0.0:return v, v, v
+            i = int(h*6.0)
+            f, p = (h*6.0) - i, v*(1.0 - s)
+            q, t= v*(1.0 - s*f), v*(1.0 - s*(1.0-f))
+            i %= 6
+            if i == 0:return Colors.RGB(round(v*255), round(t*255), round(p*255))
+            if i == 1:return Colors.RGB(round(q*255), round(v*255), round(p*255))
+            if i == 2:return Colors.RGB(round(p*255), round(v*255), round(t*255))
+            if i == 3:return Colors.RGB(round(p*255), round(q*255), round(v*255))
+            if i == 4:return Colors.RGB(round(t*255), round(p*255), round(v*255))
+            if i == 5:return Colors.RGB(round(v*255), round(p*255), round(q*255))
     def __init__(self):
         self._color_names = {
         "aliceblue": "f0f8ff",   
