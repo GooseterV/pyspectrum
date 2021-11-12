@@ -399,4 +399,4 @@ class Colors:
 			])//len(colors), 
 			sum([
 				color.to_hsv()._value for color in colors
-			])//len(colors))
+			])//len(colors)).to_rgb()
