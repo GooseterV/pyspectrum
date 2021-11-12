@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: pyspectrum
-Version: 0.1.0
+Version: 0.1.1
 Summary: a small, multi-use color library for python that supports RGB, Hexadecimal, Decimal, CMYK and most web colors
 Home-page: https://github.com/gooseterv/pyspectrum
 Author: GooseterV
