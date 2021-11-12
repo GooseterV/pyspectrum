@@ -164,6 +164,49 @@ class Colors:
 				an `RGB` color object		
 			"""
 			return Colors.RGB(int(255*(1.0-(self._cyan+self._black)/100)), int(255*(1.0-(self._magenta+self._black)/100)), int(255*(1.0-(self._yellow+self._black)/100)))
+	class HSV:
+		"""
+		Create an HSV color object out of h, s, and v
+
+
+		Parameters:
+			h:int - the hue
+			s:int - the saturation
+			v:int - the value 
+		Returns:
+			an HSV color object
+		Raises:
+			
+		"""
+		def __init__(self, h, s, v):
+			self._hue = h
+			self._saturation = s
+			self._value = v
+		def to_tuple(self):
+			return (self._hue, self._saturation, self._value)
+		def to_rgb(self):
+			"""
+			Converts the HSV color into an RGB color 
+			
+			Parameters:
+				`none`
+			Returns:
+				an `RGB` color object		
+			"""
+			h = self._hue/360
+			s = self._saturation/100
+			v = self._value/100
+			if s == 0.0:return v, v, v
+			i = int(h*6.0)
+			f, p = (h*6.0) - i, v*(1.0 - s)
+			q, t= v*(1.0 - s*f), v*(1.0 - s*(1.0-f))
+			i %= 6
+			if i == 0:return Colors.RGB(round(v*255), round(t*255), round(p*255))
+			if i == 1:return Colors.RGB(round(q*255), round(v*255), round(p*255))
+			if i == 2:return Colors.RGB(round(p*255), round(v*255), round(t*255))
+			if i == 3:return Colors.RGB(round(p*255), round(q*255), round(v*255))
+			if i == 4:return Colors.RGB(round(t*255), round(p*255), round(v*255))
+			if i == 5:return Colors.RGB(round(v*255), round(p*255), round(q*255))
 	def __init__(self):
 		self._color_names = {
 		"aliceblue": "f0f8ff",   
@@ -340,3 +383,21 @@ class Colors:
 			coloredText - the colored string, when printing will show up colored
 		"""
 		return f"\033[38;2;{color._red};{color._green};{color._blue}m{text}\033[0m"
+	def mix_colors(self, colors:list):
+		"""
+		Mixes a list of `RGB` colors into a single `RGB` object.
+
+		Parameters:
+			colors:list - a list of `RGB` colors
+		Returns:
+			mixedColor - an `RGB` color object of the mixed colors
+		"""
+		return Colors.HSV(sum([
+			color.to_hsv()._hue for color in colors
+			])//len(colors), 
+			sum([
+				color.to_hsv()._saturation for color in colors
+			])//len(colors), 
+			sum([
+				color.to_hsv()._value for color in colors
+			])//len(colors))
