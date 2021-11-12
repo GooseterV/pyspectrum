@@ -83,6 +83,26 @@ class Colors:
 			c, m, y = (c - min(c, m, y)) / (1 - min(c, m, y)), (m - min(c, m, y)) / (1 - min(c, m, y)), (y - min(c, m, y)) / (1 - min(c, m, y))
 			k = min(c, m, y)
 			return Colors.CMYK(int(c * 100), int(m * 100), int(y * 100), int(k * 100))
+		def to_hsv(self):
+			"""
+			Converts the RGB color into an HSV color 
+			
+			Parameters:
+				`none`
+			Returns:
+				an `HSV` color object		
+			"""
+			r, g, b = self._red/255.0, self._green/255.0, self._blue/255.0
+			mx, mn = max(r, g, b), min(r, g, b)
+			df = mx-mn
+			if mx == mn: h = 0
+			elif mx == r: h = (60 * ((g-b)/df) + 360) % 360
+			elif mx == g: h = (60 * ((b-r)/df) + 120) % 360
+			elif mx == b: h = (60 * ((r-g)/df) + 240) % 360
+			if mx == 0: s = 0
+			else: s = (df/mx)*100
+			v = mx*100
+			return Colors.HSV(round(h), round(s), round(v))
 
 	class Hexadecimal:
 		"""
