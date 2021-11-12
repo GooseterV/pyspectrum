@@ -1,6 +1,5 @@
 __author__ = 'Goose V'
-__email__ = '82774618+GooseterV@users.noreply.github.com'
-__version__ = '0.0.5'
+__version__ = '0.1.0'
 import math
 class Colors:
 	class Errors:
