@@ -1,5 +1,4 @@
 import pyspectrum_ as ps
-import colorsys
 c = ps.Colors()
 red = c.RGB(255, 0, 0)
 green = c.RGB(0, 255, 0)
