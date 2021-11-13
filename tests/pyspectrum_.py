@@ -1,5 +1,5 @@
 __author__ = 'Goose V'
-__version__ = '0.1.2'
+__version__ = '0.1.4'
 import math
 class Colors:
 	class Errors:
