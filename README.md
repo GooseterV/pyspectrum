@@ -35,7 +35,7 @@ print(c.color_text("This is red text", redRGB))
 
 ## Combining Colors
 # making green
-g = c.combine_colors([
+g = c.mix_colors([
     #yellow
     c.RGB(255, 255, 0),
     # blue
@@ -43,7 +43,3 @@ g = c.combine_colors([
 ])
 print(g.to_tuple())
 ```
-
-
-
-
