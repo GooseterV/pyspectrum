@@ -1,6 +1,6 @@
 # pyspectrum
 ### a small, multi-use color library for python
-### supports RGB, Hexadecimal, Decimal, CMYK and most web colors (`red`, `seagreen`, `yellow`)
+### supports RGB, Hexadecimal, Decimal, CMYK, HSV and most web colors (`red`, `seagreen`, `yellow`)
 ## Quickstart
 ### Installation & Upgrading
 Using `pip` to install is highly reccomended</br>
